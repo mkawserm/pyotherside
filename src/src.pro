@@ -12,10 +12,17 @@ QT += qml quick svg
 
 target.path = $$[QT_INSTALL_QML]/$$PLUGIN_IMPORT_PATH
 INSTALLS += target
+!win32{
+    qmldir.files += qmldir pyotherside.qmltypes
+    qmldir.path += $$target.path
+    INSTALLS += qmldir
+}
 
-qmldir.files += qmldir pyotherside.qmltypes
-qmldir.path += $$target.path
-INSTALLS += qmldir
+win32{
+    qmldir.files += win32/qmldir pyotherside.qmltypes
+    qmldir.path += $$target.path
+    INSTALLS += qmldir
+}
 
 qmltypes.commands = qmlplugindump -nonrelocatable io.thp.pyotherside 1.5 > $$PWD/pyotherside.qmltypes
 QMAKE_EXTRA_TARGETS += qmltypes
